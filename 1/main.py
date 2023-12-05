@@ -13,7 +13,7 @@ cardinal_numbers = [
     "eight",
     "nine",
 ]
-reversed_numbers = [numstring[::-1] for numstring in cardinal_numbers]
+reversed_numbers = [numstring[::-1] for numstring in cardinal_numbers]  # orez, eno...
 
 
 def extract_first_number(line, numstrings):
