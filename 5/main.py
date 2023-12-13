@@ -4,7 +4,7 @@ from functools import lru_cache
 
 with open("5/input.txt") as f:
     lines = [line.rstrip() for line in f]
-seed_numbers = np.array([int(s) for s in lines[1].strip().split(" ")])
+seed_numbers = np.array([int(s) for s in lines[1].strip().split(" ")], dtype="int32")
 ranges = []
 for i in range(0, len(seed_numbers), 2):
     start = seed_numbers[i]
