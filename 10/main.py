@@ -127,8 +127,30 @@ class FloodFill:
         print(self.get_cluster(self.dots[6]))
 
 
-ff = FloodFill(lines, maze_positions)
-ff.solution()
+def is_inside(pos, grid, maze) -> bool:
+    r, c = pos
+    print(pos)
+    boundaries = "-LFJS7"
+    count = 0
+    while True:
+        try:
+            print(grid[r][c])
+            if grid[r][c] in boundaries and (r, c) in maze:
+                count += 1
+            r += 1
+        except IndexError:
+            print(count)
+            return bool(count % 2)
+
+
+dots = [
+    (r, c)
+    for r, c in it.product(range(len(lines)), range(len(lines[0])))
+    if lines[r][c] == "."
+]
+
+print(dots)
+print(sum(is_inside(dot, lines, maze_positions) for dot in dots))
 
 """
 class FloodFill:

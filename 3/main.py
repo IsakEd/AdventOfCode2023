@@ -70,4 +70,6 @@ def get_part_numbers(line_index, mat):
 total = 0
 for i, line in enumerate(lines):
     pnums = get_part_numbers(i, mat)
+    total += pnums
     print(pnums)
+print(total)

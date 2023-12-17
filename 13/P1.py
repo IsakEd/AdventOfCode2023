@@ -13,7 +13,6 @@ groups.append(raw_lines[prev + 1 :])
 
 def match_group(group: list):
     match_index = -1
-    match_length = 0
     for i, line in enumerate(group):
         j = i  # to iterate again
         prev_index = i - 1
@@ -21,32 +20,31 @@ def match_group(group: list):
         while line == prev:
             # print(f"Match found! {line} equals {line}")
             match_index = i
-            match_length += 1
             prev_index -= 1
             j += 1
+            if prev_index < 0:
+                return match_index
             try:
                 line = group[j]
                 prev = group[prev_index]
             except IndexError:
-                return match_length, match_index
-    return -1, -1
+                return match_index
+    return -1
 
 
 def score_from_group(group):
     tot = 0
-    hori, hori_pos = match_group(group)
+    hori_pos = match_group(group)
     rot_arr = np.rot90(np.array([list(l) for l in group]), -1)
     rot = list([list(subarr) for subarr in rot_arr])
-    uneven = len(rot) % 2
-    if uneven:
-        rot = rot[1:]
-    vert, vert_pos = match_group(rot)
+    # print(f"sending in {rot}")
+    vert_pos = match_group(rot)
     hori_score = 100 * hori_pos if hori_pos >= 0 else 0
-    vert_score = vert_pos + uneven if vert_pos >= 0 else 0
+    vert_score = vert_pos if vert_pos >= 0 else 0
     tot += hori_score
     tot += vert_score
-    if hori_score > 0 and vert_score > 0:
-        print("Strange")
+    if tot == 0:
+        print(f"No match on {group}")
     return tot
 
 
@@ -54,7 +52,9 @@ total = 0
 
 for group in groups:
     total += score_from_group(group)
+    # print(f"adding {score_from_group(group)}")
 
 print(total)
 # add up the number of columns to the left of each vertical line of reflection;
 # 25357 - answer is too low
+# 32704 - answer is too low
